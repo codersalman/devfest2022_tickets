@@ -7,7 +7,4 @@ const router = express.Router();
 router.post("/check_payment", validateTicket);
 
 
-
-
-//HEllo Change
 module.exports = router;

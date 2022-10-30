@@ -1,5 +1,4 @@
 const app = require("firebase-admin");
-const {response} = require("express");
 
 exports.validateTicket = async (req, res) => {
 
@@ -20,17 +19,9 @@ exports.validateTicket = async (req, res) => {
                     if (snapshot.exists()) {
 
                         snapshot.forEach(function (data) {
-
-
-                                if (data.val().refid === refid) {
+                            if (data.val().refid === refid) {
 
                                     claimTicket(req, res, email, refid, peer_profile)
-
-                                // return
-                                //     res.status(200).json({
-                                //     message: "Valid Ticket",
-                                //     data: data.val()
-                                // })
 
                             } else {
                                 return res.status(400).json({
@@ -58,18 +49,17 @@ exports.validateTicket = async (req, res) => {
 const claimTicket = async (req, res,email,refid,peer_profile) => {
 
     function ticketId(a) {
-      let  tktID = refid.split('1')
+      let  tktID = a.split('1')
 
         return tktID[1]+'_' + Math.random().toString(36).substring(2, 7);
     }
 
     try{
 
-
         var db = app.database();
         var ref = db.ref("claimed_tickets");
 
-        const check = await ref.orderByChild("status").equalTo('claimed').once("value", function (snapshot) {
+        const check = await ref.orderByChild("claimed").equalTo(true).once("value", function (snapshot) {
 
             if (snapshot.exists()) {
                 snapshot.forEach(function (data) {
@@ -84,8 +74,8 @@ const claimTicket = async (req, res,email,refid,peer_profile) => {
                     email: email,
                     refid: refid,
                     peer_profile: peer_profile,
-                    status: 'claimed',
-                    ticketID: ticketId(Date.now()),
+                    claimed: true,
+                    ticketID: ticketId(refid),
 
                 })
                 return res.status(200).json({
@@ -94,9 +84,9 @@ const claimTicket = async (req, res,email,refid,peer_profile) => {
                         email: email,
                         refid: refid,
                         peer_profile: peer_profile,
-                        status: 'claimed',
+                        claimed: true,
+                        ticketID: ticketId(refid),
                         timeStamp: new Date().getTime(),
-
 
                     }
                 })
@@ -104,7 +94,6 @@ const claimTicket = async (req, res,email,refid,peer_profile) => {
         }
 
         )
-
 
     }catch (e) {
         console.log(e)
