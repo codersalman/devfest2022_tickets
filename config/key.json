@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "devfest-nagpur-602ab",
+  "private_key_id": "0d9088c7f1a0decc95468dacbeb9d8129ac8496f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCyODC5CtYAG6mw\ntjORJlxaU+A8m41rZKJKdl1FDIA8jDf+6S9ljExi0smBpIZJuaxFqNdOoR/FPRdr\neVWvuxmPCbX+fxMKDyTHzfYX4VjvDweW8SAUyOxwyit8Mib9CI5Ya+A7rIrSEFL+\n1QCj538a/WJwsuWPmLaIHwnf2SbKE8D09wLBvTThSygS0wUueCGU36gEYRh7AOxU\nvbdaQPMb9zHf9LKQxWlO2bXaxexnszukRSof6h9/ghSZTESCdk615VNzDT9myVGV\nUtDdb2tA0yeBA61LwD+J1Lr+QyV0cWpmxciEFZe+qxWQZgZWYX03BKOhj6EWnk3g\n48cmXCMtAgMBAAECggEAORS7MkEwupchmfo5ePd24+1yaCcQPAHe4weXJvryhbIJ\na0lHh3hQrORDaxUFd86SyTrjPwlnMha3jhIuKhs8e+5JzqnnsLSZ/K7Qb+SaxfKj\n5Sn0swOJizSNiflMOIYJhXODvcktK0vUMU+KpXSLZtsaMOtzkDMC34VFdd9Ix7bT\n1xS/756abxljNamZQ8bdpIeiK5LlJiW+ymvG/tj+SeSzsEmTjLpXUnQwmtYs0iHD\nnpevf+FxYZm0P6r8fs3cEi2rNE5fuuVST6ihTrl2s5TMVNwn0x6wnqKkKD9Hqkvd\n7QXmJE00jP2bLIdwWoIV/NIWwWiag/sSoinI6Gn19wKBgQDkdxZIfamNFnbLh2Cm\nnWMl4W/DuuqIE1gbvNe1WKIohH2r9LPDg9choO1WJmU+DqRN7vOv5sW3FYOUoaDx\n9U8Ng337zX95/0jxefl1Sh4fF3ovLraWg9PspUCZddKxitMWJS6iUF8iwh1pyFoh\nvfjyvncveg4hjwMK6bVjYNtYPwKBgQDHstssD+6tMVIcUeur8ItlJIVkDkZyu0bF\noItqwZXZnMlCcEvn9G+717Z3gsd8OYZIFRPWd4BD0Da8yMqDAKUjG+F/tfmI0tHJ\niQvwHkswLvB87TVtL6sN1EBJO3cLuKUjS/ca9HEYFMdhZXuwX2xe2NOotoYdgm2f\nbsUgECHJkwKBgHUm89A8T+M/L69yPgdyEVNtZGhTwswAT1/52Arv5kcsmVzB4CRT\nyM8/vDQ/AA9wZqRn8aGzjpMxfwWKVAN+rQja8pFacRHX7EmXKGoSlZuP6GGlbI+G\nDff9TUDkACR2cYObkWw+Fmq2a2rBCCbhSXUAYhGAXxqqQP8plI/fLNr1AoGAY9Uj\nQpzYahbdALFnivZfCXo/gSytxU+gas3+xKjwe/CooKE5IUWO0i5d1tM3XP/5BHId\nD7uAEOa3ZptOuj0JUUrv6YOUsvUJ0aHEqQ7L8dOVgC6p5eLNtcUlOjcTJXXygHnK\nl9wZ6bsBjcxJEHwz1hq5fX95/qikmu6qd4P5ECcCgYBTs8XQ4PcRNr+95C8scd4c\n5Vei0I57MPqIzVCDkhUm/Jr09kVK07ugTPL02ULddac9nImG4cWU/LU4av7W9Ayq\nWdIzOsKN88VyuSUudkoKkvStuU/WUy6VLHnyl/gu8AG81ALxWdE+AjGAV1YgXhxw\noppU1g1l1WNTh9UiP2LnYQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-mar0g@devfest-nagpur-602ab.iam.gserviceaccount.com",
+  "client_id": "107873299978701834269",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-mar0g%40devfest-nagpur-602ab.iam.gserviceaccount.com"
+}
