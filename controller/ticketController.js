@@ -6,7 +6,7 @@ exports.validateTicket = async (req, res) => {
     const { email, peer_profile } = req.body;
 
 
-    if (  !email || !peer_profile) {
+    if (  !email || !peer_profile || !peer_profile.startsWith("https://peerlist.io/")) {
         return res.status(400).json({
             message: "Please provide all the fields"
         })
