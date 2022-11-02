@@ -14,7 +14,7 @@ exports.validateTicket = async (req, res) => {
         })
     }else {
 
-        if (refid && email ) {
+        if (email ) {
             try {
                 var db = app.database();
                 var ref = db.ref("tickets_test_1");
