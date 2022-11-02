@@ -20,11 +20,26 @@ exports.validateTicket = async (req, res) => {
                 var ref = db.ref("tickets_test_1");
 
                 await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
+                    let name = snapshot.val()
+
+
                     if (snapshot.exists()) {
 
+                        snapshot.forEach(function (data) {
 
-                                    claimTicket(req, res, email, peer_profile)
+                            if (data.val().email === email) {
 
+                               let name = data.val().name
+                               let refid = data.val().ref.toString()
+
+                                claimTicket(req, res, email, peer_profile, name,refid)
+
+                            } else {
+                                return res.status(400).json({
+                                    message: "Invalid Ticket"
+                                })
+                            }
+                        });
 
                     } else {
                         res.status(404).json({
@@ -42,7 +57,7 @@ exports.validateTicket = async (req, res) => {
 
 }
 
-const claimTicket = async (req, res,email,peer_profile, p) => {
+const claimTicket = async (req, res,email,peer_profile, peer_name, refid) => {
 
     function ticketId(a) {
       let  tktID = a.split('1')
@@ -58,17 +73,17 @@ const claimTicket = async (req, res,email,peer_profile, p) => {
 
         await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
 
-
-
             if (snapshot.exists()) {
                 return res.status(400).json({
                     message: "Ticket Already Claimed"
                 })
             } else {
                 const ticket = {
+                    name: peer_name,
                     email: email,
                     peer_profile: peer_profile,
-                    ticket_id: ticketId(email),
+                    refid: refid,
+                    ticket_id: ticketId(refid),
                 }
                 ref.push(ticket)
                 // sendEmail(email, ticket.ticket_id,refid)
