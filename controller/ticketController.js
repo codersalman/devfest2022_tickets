@@ -1,4 +1,5 @@
 const app = require("firebase-admin");
+const {sendEmail} = require("./mailController");
 
 exports.validateTicket = async (req, res) => {
 
@@ -13,13 +14,13 @@ exports.validateTicket = async (req, res) => {
         if (refid && email ) {
             try {
                 var db = app.database();
-                var ref = db.ref("tickets");
+                var ref = db.ref("tickets_test_1");
 
                 await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
                     if (snapshot.exists()) {
 
                         snapshot.forEach(function (data) {
-                            if (data.val().refid === refid) {
+                            if (data.val().refid.toString() === refid) {
 
                                     claimTicket(req, res, email, refid, peer_profile)
 
@@ -59,41 +60,30 @@ const claimTicket = async (req, res,email,refid,peer_profile) => {
         var db = app.database();
         var ref = db.ref("claimed_tickets");
 
-        const check = await ref.orderByChild("claimed").equalTo(true).once("value", function (snapshot) {
+
+        await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
 
             if (snapshot.exists()) {
-                snapshot.forEach(function (data) {
-                    if (data.val().email === email) {
-                        return res.status(400).json({
-                            message: "Ticket Already Claimed"
-                        })
-                    }
+                return res.status(400).json({
+                    message: "Ticket Already Claimed"
                 })
             } else {
-                ref.push({
-                    email: email,
+                const ticket = {
                     refid: refid,
+                    email: email,
                     peer_profile: peer_profile,
-                    claimed: true,
-                    ticketID: ticketId(refid),
-
-                })
-                return res.status(200).json({
-                    message: "Ticket Claimed Successfully",
-                    data: {
-                        email: email,
-                        refid: refid,
-                        peer_profile: peer_profile,
-                        claimed: true,
-                        ticketID: ticketId(refid),
-                        timeStamp: new Date().getTime(),
-
-                    }
+                    ticket_id: ticketId(refid),
+                }
+                ref.push(ticket)
+                // sendEmail(email, ticket.ticket_id,refid)
+                res.status(200).json({
+                    message: "Ticket Claimed",
+                    ticket: ticket
                 })
             }
-        }
 
-        )
+        })
+
 
     }catch (e) {
         console.log(e)

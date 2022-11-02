@@ -17,11 +17,11 @@ app.use('/api/v1', routes);
 
 try {
     const serviceAccount = process.env.FIREBASE_KEY;
-  const firebaseINit = initializeApp({
+     initializeApp({
         credential: cert(serviceAccount),
         databaseURL: "https://devfest-nagpur-602ab-default-rtdb.firebaseio.com/"
     });
-console.log(firebaseINit)
+
 
 } catch (e) {
     console.log(e)
