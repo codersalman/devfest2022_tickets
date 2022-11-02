@@ -6,8 +6,6 @@ exports.validateTicket = async (req, res) => {
     const { email, peer_profile } = req.body;
 
 
-
-
     if (  !email || !peer_profile) {
         return res.status(400).json({
             message: "Please provide all the fields"
@@ -18,20 +16,29 @@ exports.validateTicket = async (req, res) => {
             try {
                 var db = app.database();
                 var ref = db.ref("tickets_test_1");
+                var tktref = db.ref("claimed_tickets");
+
+            let numt = await tktref.get().then( (snapshot) => {
+
+                return  snapshot.numChildren()
+
+            })
+
 
                 await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
-                    let name = snapshot.val()
 
 
                     if (snapshot.exists()) {
 
                         snapshot.forEach(function (data) {
 
+
                             if (data.val().email === email) {
+
 
                                let name = data.val().name
 
-                                claimTicket(req, res, email, peer_profile, name)
+                                claimTicket(req, res, email, peer_profile, name,numt)
 
                             } else {
                                 return res.status(400).json({
@@ -56,12 +63,13 @@ exports.validateTicket = async (req, res) => {
 
 }
 
-const claimTicket = async (req, res,email,peer_profile, peer_name) => {
+const claimTicket = async (req, res,email,peer_profile, peer_name,numt) => {
 
-    function ticketId(a) {
-      let  tktID = a.split('1')
+    function ticketId() {
 
-        return tktID[1]+'_' + Math.random().toString(36).substring(2, 7);
+
+        console.log(numt)
+        return 'DFN'+numt
     }
 
     try{
@@ -73,20 +81,23 @@ const claimTicket = async (req, res,email,peer_profile, peer_name) => {
         await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
 
             if (snapshot.exists()) {
-                return res.status(400).json({
-                    message: "Ticket Already Claimed"
+                return res.status(201).json({
+                    message: "Ticket Already Claimed",
+                    data: snapshot.val()
                 })
             } else {
                 const ticket = {
                     name: peer_name,
                     email: email,
                     peer_profile: peer_profile,
-                    ticket_id: ticketId(email),
+                    ticket_id: ticketId(),
                 }
                 ref.push(ticket)
-                // sendEmail(email, ticket.ticket_id,refid)
+                sendEmail(req, res, peer_name, ticket.ticket_id, email)
+                console.log('mail sent')
                 res.status(200).json({
                     message: "Ticket Claimed",
+                    email_status: "Email Sent",
                     ticket: ticket
                 })
             }
