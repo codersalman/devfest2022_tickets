@@ -30,9 +30,8 @@ exports.validateTicket = async (req, res) => {
                             if (data.val().email === email) {
 
                                let name = data.val().name
-                               let refid = data.val().ref.toString()
 
-                                claimTicket(req, res, email, peer_profile, name,refid)
+                                claimTicket(req, res, email, peer_profile, name)
 
                             } else {
                                 return res.status(400).json({
@@ -57,7 +56,7 @@ exports.validateTicket = async (req, res) => {
 
 }
 
-const claimTicket = async (req, res,email,peer_profile, peer_name, refid) => {
+const claimTicket = async (req, res,email,peer_profile, peer_name) => {
 
     function ticketId(a) {
       let  tktID = a.split('1')
@@ -82,8 +81,7 @@ const claimTicket = async (req, res,email,peer_profile, peer_name, refid) => {
                     name: peer_name,
                     email: email,
                     peer_profile: peer_profile,
-                    refid: refid,
-                    ticket_id: ticketId(refid),
+                    ticket_id: ticketId(email),
                 }
                 ref.push(ticket)
                 // sendEmail(email, ticket.ticket_id,refid)
