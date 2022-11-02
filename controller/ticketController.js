@@ -80,10 +80,12 @@ const claimTicket = async (req, res,email,peer_profile, peer_name,numt) => {
 
         await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
 
+
             if (snapshot.exists()) {
+
                 return res.status(201).json({
                     message: "Ticket Already Claimed",
-                    data: snapshot.val()
+                    ticket: snapshot.val()
                 })
             } else {
                 const ticket = {
