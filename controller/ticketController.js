@@ -3,9 +3,12 @@ const {sendEmail} = require("./mailController");
 
 exports.validateTicket = async (req, res) => {
 
-    const {refid , email, peer_profile} = req.body;
+    const { email, peer_profile } = req.body;
 
-    if (!refid || !email || !peer_profile) {
+
+
+
+    if (  !email || !peer_profile) {
         return res.status(400).json({
             message: "Please provide all the fields"
         })
@@ -19,21 +22,13 @@ exports.validateTicket = async (req, res) => {
                 await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
                     if (snapshot.exists()) {
 
-                        snapshot.forEach(function (data) {
-                            if (data.val().refid.toString() === refid) {
 
-                                    claimTicket(req, res, email, refid, peer_profile)
+                                    claimTicket(req, res, email, peer_profile)
 
-                            } else {
-                                return res.status(400).json({
-                                    message: "Invalid Ticket"
-                                })
-                            }
-
-                        });
 
                     } else {
                         res.status(404).json({
+
                             message: "Ticket Not Found"
                         })
                     }
@@ -47,7 +42,7 @@ exports.validateTicket = async (req, res) => {
 
 }
 
-const claimTicket = async (req, res,email,refid,peer_profile) => {
+const claimTicket = async (req, res,email,peer_profile, p) => {
 
     function ticketId(a) {
       let  tktID = a.split('1')
@@ -63,16 +58,17 @@ const claimTicket = async (req, res,email,refid,peer_profile) => {
 
         await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
 
+
+
             if (snapshot.exists()) {
                 return res.status(400).json({
                     message: "Ticket Already Claimed"
                 })
             } else {
                 const ticket = {
-                    refid: refid,
                     email: email,
                     peer_profile: peer_profile,
-                    ticket_id: ticketId(refid),
+                    ticket_id: ticketId(email),
                 }
                 ref.push(ticket)
                 // sendEmail(email, ticket.ticket_id,refid)
