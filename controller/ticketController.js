@@ -1,5 +1,9 @@
 const app = require("firebase-admin");
 const {sendEmail} = require("./mailController");
+const {database} = require("firebase-admin");
+
+
+
 
 exports.validateTicket = async (req, res) => {
 
@@ -115,4 +119,59 @@ const claimTicket = async (req, res,email,peer_profile, peer_name,numt) => {
 
 
 
+}
+
+exports.getClaimedTickets = async (req, res) => {
+
+        try {
+            const db = app.database();
+
+            var ref = db.ref("claimed_tickets");
+
+            await ref.once("value", function (snapshot) {
+
+                if (snapshot.exists()) {
+
+                    return res.status(200).json({
+                        message: "Tickets Found",
+                        tickets: snapshot.val()
+                    })
+                } else {
+                    res.status(404).json({
+                        message: "No Tickets Found"
+                    })
+                }
+            })
+
+        } catch (e) {
+            console.log(e)
+        }
+}
+
+exports.counterValidation = async (req,res) =>{
+
+    let id =  req.body.id
+
+    try {
+
+        const db = app.database();
+
+        const ref = db.ref("claimed_tickets");
+
+
+        await ref.orderByChild("ticket_id").equalTo(id).once("value", function (snapshot) {
+
+            res.send(
+snapshot.val()
+
+            )
+
+        });
+
+}catch (e){
+
+
+        console.log('Error :'+e)
+
+    }
 }
