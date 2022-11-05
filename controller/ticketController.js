@@ -157,13 +157,17 @@ exports.counterValidation = async (req,res) =>{
         const db = app.database();
 
         const ref = db.ref("claimed_tickets");
+        const refNew = db.ref("counter_claim");
 
 
         await ref.orderByChild("ticket_id").equalTo(id).once("value", function (snapshot) {
 
+            const ticket = {
+               data : snapshot.val()
+            }
+            refNew.push(ticket)
             res.send(
 snapshot.val()
-
             )
 
         });
