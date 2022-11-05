@@ -157,18 +157,22 @@ exports.counterValidation = async (req,res) =>{
         const db = app.database();
 
         const ref = db.ref("claimed_tickets");
-        const refNew = db.ref("counter_claim");
+        const claimRef = db.ref("counter_claim");
 
 
-        await ref.orderByChild("ticket_id").equalTo(id).once("value", function (snapshot) {
 
-            const ticket = {
-               data : snapshot.val()
-            }
-            refNew.push(ticket)
+        await ref.orderByChild("ticket_id").equalTo(id).once("value", async function (snapshot) {
+
+
+            console.log(snapshot.val())
+            const newD = snapshot.val();
+
+            await claimRef.update(newD)
+
             res.send(
-snapshot.val()
+                snapshot.val()
             )
+
 
         });
 
@@ -179,3 +183,5 @@ snapshot.val()
 
     }
 }
+
+
