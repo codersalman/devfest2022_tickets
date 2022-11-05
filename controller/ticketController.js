@@ -22,11 +22,11 @@ exports.validateTicket = async (req, res) => {
                 var ref = db.ref("tickets_test_1");
                 var tktref = db.ref("claimed_tickets");
 
-            let numt = await tktref.get().then( (snapshot) => {
+                let numt = await tktref.get().then( (snapshot) => {
 
-                return  snapshot.numChildren()
+                    return  snapshot.numChildren()
 
-            })
+                })
 
 
                 await ref.orderByChild("email").equalTo(email).once("value", function (snapshot) {
@@ -40,7 +40,7 @@ exports.validateTicket = async (req, res) => {
                             if (data.val().email === email) {
 
 
-                               let name = data.val().name
+                                let name = data.val().name
 
                                 claimTicket(req, res, email, peer_profile, name,numt)
 
@@ -123,29 +123,29 @@ const claimTicket = async (req, res,email,peer_profile, peer_name,numt) => {
 
 exports.getClaimedTickets = async (req, res) => {
 
-        try {
-            const db = app.database();
+    try {
+        const db = app.database();
 
-            var ref = db.ref("claimed_tickets");
+        var ref = db.ref("claimed_tickets");
 
-            await ref.once("value", function (snapshot) {
+        await ref.once("value", function (snapshot) {
 
-                if (snapshot.exists()) {
+            if (snapshot.exists()) {
 
-                    return res.status(200).json({
-                        message: "Tickets Found",
-                        tickets: snapshot.val()
-                    })
-                } else {
-                    res.status(404).json({
-                        message: "No Tickets Found"
-                    })
-                }
-            })
+                return res.status(200).json({
+                    message: "Tickets Found",
+                    tickets: snapshot.val()
+                })
+            } else {
+                res.status(404).json({
+                    message: "No Tickets Found"
+                })
+            }
+        })
 
-        } catch (e) {
-            console.log(e)
-        }
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 exports.counterValidation = async (req,res) =>{
@@ -176,7 +176,7 @@ exports.counterValidation = async (req,res) =>{
 
         });
 
-}catch (e){
+    }catch (e){
 
 
         console.log('Error :'+e)
@@ -184,4 +184,42 @@ exports.counterValidation = async (req,res) =>{
     }
 }
 
+
+exports.meal_counter = async (req,res) =>{
+
+    let id =  req.body.id
+
+    try {
+
+        const db = app.database();
+
+        const ref = db.ref("claimed_tickets");
+        const claimRef = db.ref("meal_counter");
+
+
+
+
+
+        await ref.orderByChild("ticket_id").equalTo(id).once("value", async function (snapshot) {
+
+
+            console.log(snapshot.val())
+            const newD = snapshot.val();
+
+            await claimRef.update(newD)
+
+            res.send(
+                snapshot.val()
+            )
+
+
+        });
+
+    }catch (e){
+
+
+        console.log('Error :'+e)
+
+    }
+}
 
