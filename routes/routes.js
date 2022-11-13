@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/check_payment", validateTicket);
 router.post("/counter_api", counterValidation);
-router.post("/meal_api", meal_counter);
+router.post("/get-cert", validateCert);
 router.post("/sendmail", sendEmail);
 
 module.exports = router;
