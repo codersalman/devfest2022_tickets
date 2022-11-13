@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require('cors');
-const {validateTicket, counterValidation, meal_counter} = require("../controller/ticketController");
+const {validateTicket, counterValidation, meal_counter, validateCert} = require("../controller/ticketController");
 const {sendEmail} = require("../controller/mailController");
 
 const router = express.Router();
